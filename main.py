@@ -103,8 +103,39 @@ for line in pline:
         rand1 = re.search(";(.*);", line)
         rand2 = re.search("<(.*)>", line)
 
-        variables[barrier.join(newvar)] = str(random.randint(int(rand1.group(1)), int(rand2.group(1))))
-
+        variables[barrier.join(newvar)] = (random.randint(int(rand1.group(1)), int(rand2.group(1))))
+      
+      if line[0:2] == "+.":
+        for c in line:
+          if c == ";":
+            break
+          else:
+            if c == "+":
+              pass
+            else:
+              if c == ".":
+                pass
+              else:
+                  newvar.append(c)
+        
+        add1 = re.search(";(.*);", line)
+        add2 = re.search("<(.*)>", line)
+        
+        if add1.group(1)[0] == "$":
+          if add2.group(1)[0] == "$":
+            nvar = (variables.get(add2.group(1)[1:]) + (variables.get(add2.group(1)[1:])))
+            variables[barrier.join(newvar)] = nvar
+          else:
+            nvar = (variables.get(add2.group(1)[1:]) + (add2.group(1)))
+            variables[barrier.join(newvar)] = nvar
+        else:
+          if add2.group(1)[0] == "$":
+            nvar = (add2.group(1)) + (variables.get(add2.group(1)[1:]))
+            variables[barrier.join(newvar)] = nvar
+          else:
+            nvar = int((add1.group(1)) + (add2.group(1)))
+            variables[barrier.join(newvar)] = nvar
+    
     else:
       return
 

@@ -1,8 +1,10 @@
 WHAT:VDis$
 
-*.name<Cooper>
+*.name<Surec>
 
 I.inname<What is your name?: >
+
+P.<$newl>
 
 IF-=;$inname;<$name>
 
@@ -13,3 +15,24 @@ IF-EL
 P.<Intruder!>
 
 IF/
+
+R.random;1;<9>
+
+R.random2;1;<9>
+
+P.<$newl>
+
+P.<$random>
+P.<$random2>
+
+P.<$newl>
+
++.added;$random;<$random2>
+
+P.<$random>
+P.<Plus>
+P.<$random2>
+P.<Equals>
+P.<$added>
+
+P.<$newl>
