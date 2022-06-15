@@ -18,6 +18,10 @@ variables = {
 
 for line in pline:
   l += 1
+
+  if l == 1:
+    if line[0:9] == "WHAT:VDis":
+      reference = line[9]
   def executecode():
 
     global ifstatement
@@ -76,7 +80,7 @@ for line in pline:
         
         prnt = re.search("<(.*)>", line)
 
-        if prnt.group(1)[0] == "$":
+        if prnt.group(1)[0] == reference:
           actprnt = variables.get(prnt.group(1)[1:])
         else:
           actprnt = prnt.group(1)
@@ -111,8 +115,8 @@ for line in pline:
       arg1 = re.search(";(.*);", line)
       arg2 = re.search("<(.*)>", line)
       if line[3] == "=":
-        if arg1.group(1)[0] == "$":          
-          if arg2.group(1)[0] == "$":
+        if arg1.group(1)[0] == reference:          
+          if arg2.group(1)[0] == reference:
             if variables.get(arg1.group(1)[1:]) == variables.get(arg2.group(1)[1:]):
               ifstatement = False
             else:
@@ -123,7 +127,7 @@ for line in pline:
             else:
               ifstatement = True
         else:
-          if arg2.group(1)[0] == "$":
+          if arg2.group(1)[0] == reference:
             if arg1.group(1) == variables.get(arg2.group(1)[1:]):
               ifstatement = False
             else:
@@ -135,8 +139,8 @@ for line in pline:
               ifstatement = True
       else:
         if line[3] == "!":
-          if arg1.group(1)[0] == "$":          
-            if arg2.group(1)[0] == "$":
+          if arg1.group(1)[0] == reference:          
+            if arg2.group(1)[0] == reference:
               if variables.get(arg1.group(1)[1:]) == variables.get(arg2.group(1)[1:]):
                 ifstatement = True
               else:
@@ -147,7 +151,7 @@ for line in pline:
               else:
                 ifstatement = False
           else:
-            if arg2.group(1)[0] == "$":
+            if arg2.group(1)[0] == reference:
               if arg1.group(1) == variables.get(arg2.group(1)[1:]):
                 ifstatement = True
               else:
@@ -157,9 +161,18 @@ for line in pline:
                 ifstatement = True
               else:
                 ifstatement = False
+    else:
+      if line[3:5] == "EL":
+        if ifstatement == True:
+          ifstatement = False
+        else:
+          ifstatement = True
+      
   if line [0:3] == "IF/":
         ifstatement = False       
 
+  
+  
   else:
     if ifstatement == False:  
         executecode()

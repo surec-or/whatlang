@@ -1,2 +1,15 @@
-R.rand;0;<99999999>
-P.<$rand>
+WHAT:VDis$
+
+*.name<Cooper>
+
+I.inname<What is your name?: >
+
+IF-=;$inname;<$name>
+
+P.<Thanks!>
+
+IF-EL
+
+P.<Intruder!>
+
+IF/
